@@ -1,35 +1,24 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
+
+#include "proces.h"
 
 
-class process {
-private:
-    const unsigned int size_of_process;
-    const std::vector<int>* front_time;
-    const std::vector<int>* middle_time;
-    const std::vector<int>* end_time;
-    int* order;
-public:
-    process(std::vector<int>*, std::vector<int>*, std::vector<int>*, int);
-    int calculate_length_of_process();
-    int* sort_process();
-};
 
-process::process(std::vector<int>* a, std::vector<int>* b, std::vector<int>* c, int n) : front_time(a), middle_time(b), end_time(c), size_of_process(n) {}
 
-int process::calculate_length_of_process() {
-    int
-}
 
-int* process::sort_process() {
-    int order_table[size_of_process];
-
-    return nullptr;
-}
-
-int load_file() {
-    FILE
+int load_process() {
+	std::string name;
+	std::cout << std::endl << "Wpisz nazwe pliku" << std::endl;
+	std::cin >> name;
+	std::cout << name;
+	process process_1(name);
+	std::cout << "DLugosc procesu: " << process_1.calculate_length_of_process() << std::endl;
+	process_1.print_order();
+	process_1.sort_process_first();
+	std::cout << "DLugosc procesu: " << process_1.calculate_length_of_process() << std::endl;
+	process_1.print_order();
+	
+	return 0;
 }
 
 int menu() {
@@ -38,11 +27,18 @@ int menu() {
     std::cin >> wybor;
     switch (wybor) {
     case'n':
-
+		load_process();
+		break;
+	case 'k':
+		exit(0);
     }
+	return 0;
 }
 
 int main() {
-
+	while(1)
+	{
+		menu();
+	}
     return 0;
 }
