@@ -16,6 +16,7 @@ private:
     int return_middle_time(int a) const { return (*middle_time)[a]; }
     int return_end_time(int a) const { return (*end_time)[a]; }
     int return_size_of_process() const { return size_of_process; }
+    void swap_elements(int first, int second, std::vector<int> &front, std::vector<int> &middle, std::vector<int> &end);
 public:
     process(std::string);
     int calculate_length_of_process() const;

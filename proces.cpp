@@ -1,5 +1,27 @@
 #include "proces.h"
 
+void process::swap_elements(int first, int second, std::vector<int> &front, std::vector<int> &middle,
+	std::vector<int> &end)
+{
+	int tmp;
+
+	tmp = front[first];
+	front[first] = front[second];
+	front[second] = tmp;
+
+	tmp = middle[first];
+	middle[first] = middle[second];
+	middle[second] = tmp;
+
+	tmp = end[first];
+	end[first] = end[second];
+	end[second] = tmp;
+
+	tmp = order[first];
+	order[first] = order[second];
+	order[second] = tmp;
+}
+
 process::process(std::string name)
 {
 	std::ifstream infile(name.c_str());
@@ -51,49 +73,54 @@ int process::calculate_length_of_process() const {
 // algorytm jest taki: naprzemiennie wybieram elementy z najkrotszym przygotowaniem,
 //a pozniej z najkrotszym stygnieciem i tak je ukladam
 void process::sort_process_first() {
-	std::vector<int> tmp_front;//dzialamy na kopiach, zmieniamy tylko pole order
-	std::vector<int> tmp_middle;
-	std::vector<int> tmp_end;
+	std::vector<int> tmp_front(*front_time);//dzialamy na kopiach, zmieniamy tylko pole order
+	std::vector<int> tmp_middle(*middle_time);
+	std::vector<int> tmp_end(*end_time);
 
 	std::cout << "Rozmiar procesu: " << return_size_of_process() << std::endl;
 	int tmp;
 
 
 	int at, ends_counter = 0, tmp_swap;
-	for (int it = 0; it < return_size_of_process() - 1; it++)
+	int is_odd = size_of_process % 2;
+	
+	
+	for (int it = 0; it < size_of_process - it; it++)
 	{
 		std::cout << "\nKrok: " << it << std::endl;
 		
 		int smallest_front = it;//tutaj zaczynamy od elementu i-tego
-		for (at = it; at < return_size_of_process() - ends_counter; at++)//-ends_counter bo nie ruszamy elementow z konca
+		for (at = it; at<size_of_process - it; at++)
 		{
 			if (tmp_front[smallest_front] > tmp_front[at])
 			{
 				smallest_front = at;//jesli jest wiekszy to zapamietujemy ktory to jest
-				std::cout << std::endl << "Najmniejszy przod to: " << tmp_front[smallest_front] << std::endl;
-				std::cout << "Jest na pozycji: " << smallest_front << std::endl;
+				//std::cout << std::endl << "Najmniejszy przod to: " << tmp_front[smallest_front] << std::endl;
+				//std::cout << "Jest na pozycji: " << smallest_front << std::endl;
 			}
 		}
-		if (smallest_front != it)
-		{
-			
-		}
+
+		//std::cout << "Zamieniam front\n Na pozycji it jest: " << tmp_front[it] << std::endl;
+		//std::cout << "Na pozycji smallest_front jest: " << tmp_front[smallest_front] << std::endl;
+
+		swap_elements(smallest_front, it, tmp_front, tmp_middle, tmp_end);
+		
 		int smallest_end = it+1;
-		for (at = smallest_end; at < return_size_of_process() - ends_counter; at++)//-ends_counter bo nie ruszamy elementow z konca
+		for (at = smallest_end; at < size_of_process - it; at++)//-ends_counter bo nie ruszamy elementow z konca
 		{
 			if (tmp_end[smallest_end] > tmp_end[at])
 			{
 				smallest_end = at;
-				std::cout << std::endl << "Najmniejszy tyl to: " << tmp_end[smallest_end] << std::endl;
-				std::cout << "Jest na pozycji: " << smallest_end << std::endl;
+				//std::cout << std::endl << "Najmniejszy tyl to: " << tmp_end[smallest_end] << std::endl;
+				//std::cout << "Jest na pozycji: " << smallest_end << std::endl;
 			}
 		}
 
-		if (smallest_end != return_size_of_process())
-		{
+		//std::cout << "Zamieniam end\n Na pozycji size_of_process-it-1 jest: " << tmp_end[size_of_process - it - 1] << std::endl;
+		//std::cout << "Na pozycji smallest_end jest: " << tmp_end[smallest_end] << std::endl;
 
-		}
-		ends_counter++;
+		swap_elements(smallest_end, size_of_process - it - 1, tmp_front, tmp_middle, tmp_end);
+				
 	}
 }
 
