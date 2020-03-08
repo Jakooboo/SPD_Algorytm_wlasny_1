@@ -6,39 +6,27 @@
 
 
 
-int load_process() {
-	std::string name;
-	std::cout << std::endl << "Wpisz nazwe pliku" << std::endl;
-	std::cin >> name;
-	std::cout << name;
-	process process_1(name);
-	std::cout << "DLugosc procesu: " << process_1.calculate_length_of_process() << std::endl;
-	process_1.print_order();
+int load_process(int liczba) {
+	process process_1("data."+std::to_string(liczba));
+	std::cout << "Dlugosc procesu " << liczba << " przed sortowaniem: " << process_1.calculate_length_of_process() << std::endl;
 	process_1.sort_process_first();
-	std::cout << "DLugosc procesu: " << process_1.calculate_length_of_process() << std::endl;
+	std::cout << "Dlugosc procesu " << liczba << " po sortowaniu: " << process_1.calculate_length_of_process() << std::endl;
+	std::cout << std::endl << "Kolejnosc procesu " << liczba << " po sortowaniu:" << std::endl;
 	process_1.print_order();
-	
+	std::cout << std::endl << std::endl;
 	return 0;
 }
 
-int menu() {
-    std::cout << std::endl << "n - nowy proces," << std::endl << "k - koniec programu" << std::endl;
-    char wybor;
-    std::cin >> wybor;
-    switch (wybor) {
-    case'n':
-		load_process();
-		break;
-	case 'k':
-		exit(0);
-    }
-	return 0;
-}
 
 int main() {
-	while(1)
+	std::cout << std::endl << "Program do sortowania zadan w procesie" << std::endl;
+	std::cout << "Laduje plik data.txt i rozpoczynam prace!" << std::endl;
+	for (int i = 1; i < 5; i++)
 	{
-		menu();
+		std::cout << std::endl << "Czas na proces data." << i << std::endl;
+		load_process(i);
 	}
+
+	std::cout << std::endl << "Koniec programu!" << std::endl;
     return 0;
 }
